@@ -1,0 +1,16 @@
+h1  {
+        color : rgb(255, 150, 0);
+        background-color: black;
+    }
+
+p
+    {
+        color : #00ff00;
+        background-color: gray;
+    }
+
+button
+    {
+        color : #fff;
+        background-color: violet;
+    }

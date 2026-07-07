@@ -1,0 +1,25 @@
+h1  {
+        text-decoration: wavy red overline;
+        text-align: right;
+       /* border: solid;*/
+        width: 50%;
+        letter-spacing: 5px;
+    }
+
+h3
+    {
+        text-decoration: line-through;
+        text-align: right;
+    }
+
+p
+    {
+        font-size: 15px;
+        line-height: 2.5;
+        font-weight: 600;
+        text-align: right;
+        font-family: Impact;
+    }
+a{
+    text-decoration: none;
+}
