@@ -20,10 +20,5 @@ for(let i=2;i<args.length;i++)
 
 
 
-
-
-
-
-
 console.log(process.argv);
 
