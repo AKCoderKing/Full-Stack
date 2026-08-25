@@ -6,12 +6,18 @@
     <title>Edit Post</title>
 </head>
 <body>
-    <form method = "patch" action ="/posts">
+
+    <h2>Edit your post</h2>
+    <p>Post id : <%= post.id %> </p>
+    <p>Post username : @ <%= post.username %></p>
+
+    <form method = "post" action ="/posts/<%=post.id%>?_method=PATCH">
         
-        <textarea placeholder=" write your new content " name = "content">  </textarea><br/>
-
+        <textarea rows ="10" cols="35" name ="content" > <%= post.content %> </textarea>
+        <br/>
+    
         <button>Submit Post</button>
-
+    
     </form>
 </body>
 </html>
