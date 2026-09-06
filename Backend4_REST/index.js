@@ -42,8 +42,6 @@ app.get("/posts/new",(req,res) => {
 
 });
 
-
-
 app.get("/posts",(req,res) => {
     res.render("index.ejs",{ posts });
 });
@@ -58,8 +56,6 @@ app.post("/posts",(req,res) =>
     res.redirect("/posts");
 
 });
-
-
 
 app.get("/posts/:id",(req,res) => {
 
@@ -96,7 +92,6 @@ app.delete("/posts/:id",(req,res)=> {
     let {id} = req.params;
     posts = posts.filter((p) => id !== p.id);
     res.redirect("/posts");
-
 });
 
 

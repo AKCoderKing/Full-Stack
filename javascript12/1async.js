@@ -60,6 +60,7 @@ async function demo()
         await changeColor("yellow",1000);
         await changeColor("blue",1000);
     }
+    
     catch(err) {
         console.log("error caught");
         console.log(err);

@@ -125,6 +125,7 @@ app.get("/user/new", (req, res) => {
   res.render("new.ejs");
 });
 
+
 app.post("/user/new", (req, res) => {
   let { username, email, password } = req.body;
   let id = uuidv4();
@@ -191,3 +192,9 @@ app.delete("/user/:id/", (req, res) => {
 app.listen("8080",() => {
     console.log("server is listening to port 8080");
 });
+
+
+
+
+
+
