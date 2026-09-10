@@ -30,18 +30,19 @@ app.get("/testListing",async (req,res) => {
         price: 1200,
         location: "Calangute,Goa",
         country: "India"
+
     });
+    sampleListing.listing.save()
 
     await sampleListing.save();
     console.log("sample was saved");
     res.send("successful testing");
 });
 
+
+
 app.listen(8080, () => {
     console.log("server is listening to port: 8080");
 });
-
-
-
 
 
