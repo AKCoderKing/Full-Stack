@@ -48,8 +48,6 @@ body {
 
 }
 
-
-
 .f-info-links, .f-info-socials, .f-info-brand{
     width: 100%;
     vertical-align:middle;
@@ -71,7 +69,6 @@ body {
     margin-bottom: 2rem;
 }
 
-
 .card-img-top{
     border-radius: 1rem !important;
     width: 100% !important;
@@ -85,7 +82,6 @@ body {
 .card-text p{
     font-weight: 400 !important;
 }
-
 
 .listing-link{
     text-decoration: none; /* for removing the line on text */
@@ -108,7 +104,27 @@ body {
 }
 
 
+/* Edit page */
 
+.edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
 
+/* Show Page */
 
+.show-img
+{
+    height:30vh;
 
+}
+
+.btns
+{
+    display: flex;
+}
+
+.show-card{
+    padding-left:0;
+    padding-right:0;
+}
