@@ -36,7 +36,7 @@ router.get("/new",isLoggedIn, (req,res) => {
 // Show Route 
 router.get("/:id", wrapAsync(async(req,res) => {
     let {id} = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id).populate("reviews").populate("owner");
     if(!listing) {
         req.flash("error","Listing you requested for does not exist!");
         res.redirect("/listings");
@@ -47,8 +47,9 @@ router.get("/:id", wrapAsync(async(req,res) => {
 
 //Create Route
 router.post("/", isLoggedIn, validateListing,wrapAsync(async (req,res,next) => {
-    
     const newListing = new Listing(req.body.listing);
+    console.log(req.user);
+    newListing.owner = req.user._id;// req.user humare user ki bahut si information store karat hai lekin humko id hi chahiye
     await newListing.save();
     req.flash("success","New listing Created!");
     res.redirect("/listings");
