@@ -36,7 +36,9 @@ router.get("/new",isLoggedIn, (req,res) => {
 // Show Route 
 router.get("/:id", wrapAsync(async(req,res) => {
     let {id} = req.params;
-    const listing = await Listing.findById(id).populate("reviews").populate("owner");
+    const listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
     if(!listing) {
         req.flash("error","Listing you requested for does not exist!");
         res.redirect("/listings");
@@ -78,6 +80,13 @@ router.put("/:id",validateListing, isLoggedIn, wrapAsync(async(req,res) => {
     }
 
     let {id} = req.params;
+    let listing = await Listing.findById(id);
+    if(!listing.owner.equals(res.locals.currUser._id)) {
+        req.flash("error", "You don't have permission to edit");
+        res.redirect(`/lisitng/${id}`);
+    }
+
+
     await Listing.findByIdAndUpdate(id, {...req.body.listing});
     req.flash("success","Listing Updated");
     res.redirect("/listings");
@@ -94,3 +103,7 @@ router.delete("/:id", isLoggedIn, wrapAsync(async(req,res) => {
     res.redirect("/listings");
 }));
 module.exports = router;
+
+
+
+
