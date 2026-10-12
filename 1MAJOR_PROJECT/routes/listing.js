@@ -1,23 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../schema.js");
 const Listing = require("../Models/listing.js");
-const {isLoggedIn} = require("../middleware.js");
-
-
-const validateListing = (req,res,next) => {
-    let {error }= listingSchema.validate(req.body);
-   
-    if(error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400,error);
-    }
-    else {
-        next();
-    }
-};
+const {isLoggedIn, isOwner, validateListing} = require("../middleware.js");
 
 
 // index route
@@ -60,7 +45,7 @@ router.post("/", isLoggedIn, validateListing,wrapAsync(async (req,res,next) => {
 
 
 //edit Route
-router.get("/:id/edit", isLoggedIn, wrapAsync(async(req,res) => {
+router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(async(req,res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id);
     if(!listing) {
@@ -70,32 +55,26 @@ router.get("/:id/edit", isLoggedIn, wrapAsync(async(req,res) => {
     else  res.render("listings/edit.ejs",{listing});
 }));
 
+
 //Update Route 
-router.put("/:id",validateListing, isLoggedIn, wrapAsync(async(req,res) => {
+router.put("/:id",validateListing, isLoggedIn, isOwner, wrapAsync(async(req,res) => {
 
     if(!req.body.listing) // iska mtlb h ki listings main koi data nhi h 
     // toh error print karwa do
     {
         throw new ExpressError(400,"Send valid data for listing");
     }
-
     let {id} = req.params;
-    let listing = await Listing.findById(id);
-    if(!listing.owner.equals(res.locals.currUser._id)) {
-        req.flash("error", "You don't have permission to edit");
-        res.redirect(`/lisitng/${id}`);
-    }
-
-
     await Listing.findByIdAndUpdate(id, {...req.body.listing});
     req.flash("success","Listing Updated");
     res.redirect("/listings");
 
-}));
+  })
+);
 
 
 //Deleted
-router.delete("/:id", isLoggedIn, wrapAsync(async(req,res) => {
+router.delete("/:id", isLoggedIn, isOwner, wrapAsync(async(req,res) => {
     let {id} = req.params;
     let deletedlisting = await Listing.findByIdAndDelete(id);
     console.log(deletedlisting);
