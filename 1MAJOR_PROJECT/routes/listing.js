@@ -21,7 +21,7 @@ router.get("/new",isLoggedIn, (req,res) => {
 // Show Route 
 router.get("/:id", wrapAsync(async(req,res) => {
     let {id} = req.params;
-    const listing = await Listing.findById(id)
+    let listing = await Listing.findById(id)
       .populate({ path: "reviews", populate: {
         path: "author",
       },

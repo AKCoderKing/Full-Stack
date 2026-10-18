@@ -11,7 +11,7 @@ router.post("/",isLoggedIn,validateReview, wrapAsync(async(req,res) => {
     console.log(req.params.id);
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
-    newReview.author = req.User._id; //author main ab hum joh h user ki id denge 
+    newReview.author = req.user._id; //author main ab hum joh h user ki id denge 
     console.log(newReview);
     listing.reviews.push(newReview);
     await newReview.save();
@@ -22,8 +22,11 @@ router.post("/",isLoggedIn,validateReview, wrapAsync(async(req,res) => {
 
 }));
 
+
+
+
 //DELETE REVIEW ROUTE
-router.delete("/:reviewId", wrapAsync(async(req,res) => {
+router.delete("/:reviewId", isLoggedIn, wrapAsync(async(req,res) => {
     let {id,reviewId} = req.params;
 
     await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
