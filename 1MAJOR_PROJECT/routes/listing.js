@@ -5,6 +5,7 @@ const Listing = require("../Models/listing.js");
 const {isLoggedIn, isOwner, validateListing} = require("../middleware.js");
 
 
+
 // index route
 router.get("/", wrapAsync(async(req,res) => {
     const allListings = await Listing.find({});
@@ -19,6 +20,7 @@ router.get("/new",isLoggedIn, (req,res) => {
 
 
 // Show Route 
+
 router.get("/:id", wrapAsync(async(req,res) => {
     let {id} = req.params;
     let listing = await Listing.findById(id)
@@ -33,6 +35,7 @@ router.get("/:id", wrapAsync(async(req,res) => {
     }
     else res.render("listings/show.ejs", {listing} );
 }));
+
 
 
 //Create Route
