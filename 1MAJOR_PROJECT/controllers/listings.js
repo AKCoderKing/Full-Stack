@@ -28,14 +28,18 @@ module.exports.showListing = async(req,res) => {
 };
 
 
-module.exports.createListing = async(req,res,next) => {
-   const newListing = new Listing(req.body.listing);
-   console.log(req.user);
-   newListing.owner = req.user._id;// req.user humare user ki bahut si information store karat hai lekin humko id hi chahiye
-   await newListing.save();
-   req.flash("success","New listing Created!");
-   res.redirect("/listings");
 
+module.exports.createListing = async(req,res,next) => {
+  let url = req.file.path;
+  let filename = req.file.filename;
+
+  const newListing = new Listing(req.body.listing);
+  newListing.owner = req.user._id;// req.user humare user ki bahut si information store karat hai lekin humko id hi chahiye
+  newListing.image = {url, filename};
+  
+  await newListing.save();
+  req.flash("success","New listing Created!");
+  res.redirect("/listings");
 };
 
 module.exports.renderEditForm = async(req,res) => {
@@ -56,7 +60,13 @@ module.exports.updateLisitng = async(req,res) => {
       throw new ExpressError(400,"Send valid data for listing");
   }
   let {id} = req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body.listing});
+  let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+
+  let url = req.file.path;
+  let filename = req.file.filename;
+  listing.image = {url,filename};
+  await listing.save();
+  
   req.flash("success","Listing Updated");
   res.redirect(`/listings/${id}`);
 
